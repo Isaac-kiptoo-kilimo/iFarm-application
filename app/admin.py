@@ -4,7 +4,7 @@ from .models import *
 
 admin.site.register(Post)
 admin.site.register(Profile)
-admin.site.register(Busines)
+admin.site.register(Business)
 admin.site.register(Shop)
 admin.site.register(Farm)
 admin.site.register(Location)
