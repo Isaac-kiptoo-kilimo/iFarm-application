@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="login container-fluid p-5">
+  <div class="container">
+    <div class="row mt-5">
+      <div class="col-md-6 offset-md-3">
+        <div class="card card-custom p-3">
+          <h2 class="mb-3">Sign In To You Account</h2>
+          <form action="" method="POST">
+            {% csrf_token %}
+            <!-- Email input -->
+            <div class="form-outline mb-4">
+              <input type="text" id="username" name="username" class="form-control bg-white" />
+              <label class="form-label" for="username">Username</label>
+              
+              
+            </div>
+          
+            <!-- Password input -->
+            <div class="form-outline mb-4">
+              <input type="password" id="password" name="password" class="form-control bg-white" />
+              <label class="form-label" for="password">Password</label>
+             
+              
+            </div>
+          
+            <!-- Submit button -->
+            <div class="my-2">
+              <button type="submit" class="btn btn-default mb-4 text-white">Sign in</button>
+            </div>
+          
+            <!-- Register buttons -->
+            <div class="text-center">
+              <p>Not a member? <a href="{% url 'register' %}">Register</a></p>
+              <p>or sign up with:</p>
+              <button type="button" class="btn btn-default btn-floating mx-1">
+                <i class="fab fa-facebook-f"></i>
+              </button>
+          
+              <button type="button" class="btn btn-light btn-floating mx-1">
+                <i class="fab fa-google"></i>
+              </button>
+          
+              <button type="button" class="btn btn-default btn-floating mx-1">
+                <i class="fab fa-twitter"></i>
+              </button>
+          
+              <button type="button" class="btn btn-light btn-floating mx-1">
+                <i class="fab fa-github"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
