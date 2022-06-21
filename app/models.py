@@ -77,6 +77,7 @@ class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts",null=True,blank=True)
     description=models.TextField(null=False)
     created_at=models.DateTimeField(auto_now_add=True,)
+    price=models.CharField(max_length=100,null=True,blank=True)
 
     def save_post(self):
         self.save()
@@ -154,3 +155,23 @@ class Business(models.Model):
 
     def __str__(self):
         return self.business_name
+
+    
+class Message(models.Model):
+    message_title=models.CharField(max_length=100,blank=True,null=True)
+    user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="messages",null=True,blank=True)
+    message=models.TextField(null=True,blank=True)
+
+    def save_message(self):
+        self.save()
+
+    def delete_message(self):
+        self.delete()
+
+    def update_message(self,id,message):
+        updated_message=Message.objects.filter(id=id).update(message)
+        return updated_message
+
+
+    def __str__(self):
+        return self.message
