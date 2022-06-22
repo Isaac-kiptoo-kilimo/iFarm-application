@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container ">
+    <div class="row">
+      <h2 class="mt-4">Account For <span class="text-uppercase">{{request.user.first_name}}  {{request.user.last_name}}</span></h2>
+       <div class="card my-5 py-5">
+        <h3 class="ms-2">Username :{{request.user.username}} 
+        </h3>
+        <p class="text-primary ms-2 ">Bio : <span class="mx-3 text-dark">{{request.user.profile.bio}}</span> </p>
+        <div>
+          <div class="row">
+                
+            <div class="col-md-4">
+              {% if user.profile.proc_img %}
+              <img src="{{user.profile.proc_img.url}}" width="80px" height="80px" class=" rounded-circle mx-3" alt="">
+              {% else %}
+              <img src="/static/images/user.webp" width="60px" height="60px" class=" rounded-circle" alt="">
+              {% endif %}
+            </div>
+            
+            <div class="col-md-4">
+                <a href="{% url 'editprofile' %}" class="btn btn-outline-primary">Edit Profile</a>
+            </div>
+            <div class="col-md-4">
+              <a href="" class="btn btn-outline-primary">Create Hood</a>
+          </div>
+          
+          </div>
+        </div>
+       </div>
+       <div>
+    </div>
+    </div>
+</div>
+{% endblock %}

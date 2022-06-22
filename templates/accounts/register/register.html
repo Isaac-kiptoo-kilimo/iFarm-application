@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid login p-5">
+  <div class="container">
+    <a href="{% url 'farmer' %}" class="btn btn-sucess">As Farmer</a>
+    <a href="{% url 'officer' %}" class="btn btn-sucess">As Officer</a>
+  </div>
+</div>
+{% endblock %}

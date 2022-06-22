@@ -1,16 +1,43 @@
 from django.db import models
-
 from cloudinary.models import CloudinaryField
 from django.dispatch import receiver
 from django.db.models.signals import post_save
-from django.contrib.auth.models import User
+from django.db import transaction
+
+
+from django.contrib.auth.models import AbstractUser
+
+
+class User(AbstractUser):
+    is_farmer = models.BooleanField(default=False)
+    is_officer = models.BooleanField(default=False)
+
+
+class Farmer(models.Model):
+    resignation=models.CharField(max_length=100,null=True,blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True,related_name='farmer')
+    # posts = models.ManyToManyField('Post',primary_key=True,related_name='officer', through='post')
+   
+
+    @transaction.atomic
+    def save_farmer(self):
+        user=super().save(commit=False)
+        user.is_farmer = True
+        user.save()
+        farmer = Farmer.objects.create(user=user)
+        return user
+
+class Officer(models.Model):
+    resignation=models.CharField(max_length=100,null=True,blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True,related_name='Officer')
+    # posts = models.ManyToManyField('Post',primary_key=True,related_name='officer', through='post')
 
 class Farm(models.Model):
     farm_name=models.CharField(max_length=100,blank=True,null=True)
     location=models.CharField(max_length=200,blank=True,null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="farms",null=True,blank=True)
     farm_img=CloudinaryField('image',blank=True)
-    admin=models.ForeignKey('Profile', on_delete=models.CASCADE, related_name="farms",null=True,blank=True)
+    admin=models.ForeignKey('Profile', on_delete=models.CASCADE, related_name="farmers",null=True,blank=True)
     Agricultural_helpline=models.CharField(max_length=200,blank=True,null=True)
     description=models.TextField(null=False,blank=True)
 
@@ -74,7 +101,7 @@ class Profile(models.Model):
 class Post(models.Model):
     title=models.CharField(max_length=100,null=True,blank=True)
     post_img=CloudinaryField('post_img',blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts",null=True,blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="post",null=True,blank=True)
     description=models.TextField(null=False)
     created_at=models.DateTimeField(auto_now_add=True,)
     price=models.CharField(max_length=100,null=True,blank=True)
@@ -134,44 +161,43 @@ class Shop(models.Model):
     def __str__(self):
         return self.shop_name
 
-class Business(models.Model):
-    business_name=models.CharField(max_length=100,blank=True,null=True)
-    user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="users",null=True,blank=True)
-    farm_id=models.ForeignKey(Farm, on_delete=models.CASCADE, related_name="farms",null=True,blank=True)
-    business_logo=CloudinaryField('image',blank=True)
-    business_email=models.EmailField(max_length=100,blank=True,null=True)
-    contact=models.IntegerField(null=True,blank=True)
-
-    def save_business(self):
-        self.save()
-
-    def delete_business(self):
-        self.delete()
-
-    def update_business(self,id,business):
-        updated_business=Business.objects.filter(id=id).update(business)
-        return updated_business
-
-
-    def __str__(self):
-        return self.business_name
-
     
-class Message(models.Model):
-    message_title=models.CharField(max_length=100,blank=True,null=True)
-    user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="messages",null=True,blank=True)
-    message=models.TextField(null=True,blank=True)
+class Question(models.Model):
+    question_title=models.CharField(max_length=100,blank=True,null=True)
+    user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="questions",null=True,blank=True)
+    question=models.TextField(null=True,blank=True)
+    post_at=models.DateTimeField(auto_now_add=True,)
 
-    def save_message(self):
+    def save_question(self):
         self.save()
 
-    def delete_message(self):
+    def delete_question(self):
         self.delete()
 
-    def update_message(self,id,message):
-        updated_message=Message.objects.filter(id=id).update(message)
-        return updated_message
+    def update_question(self,id,question):
+        updated_question=Question.objects.filter(id=id).update(question)
+        return updated_question
 
 
     def __str__(self):
-        return self.message
+        return self.question
+
+class Answer(models.Model):
+    answer_title=models.CharField(max_length=100,blank=True,null=True)
+    question=models.ForeignKey(User, on_delete=models.CASCADE, related_name="answers",null=True,blank=True)
+    answer=models.TextField(null=True,blank=True)
+    posted_at=models.DateTimeField(auto_now_add=True,)
+
+    def save_answer(self):
+        self.save()
+
+    def delete_answer(self):
+        self.delete()
+
+    def update_answer(self,id,answer):
+        updated_answer=Question.objects.filter(id=id).update(answer)
+        return updated_answer
+
+
+    def __str__(self):
+        return self.answer

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{%  block content %}
+
+<div class="row my-4">
+  <div class="col-md-6 offset-md-3">
+    <form action="#" method="POST" class="form" id="pos" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ prof_form|crispy}}
+     
+         
+     <div class="d-flex justify-content-center">
+         <button type="submit" class="btn btn-outline-primary ">submit</button>
+     </div>
+
+
+  </form>
+
+  </div>
+ </div>
+ {% endblock %}

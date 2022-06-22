@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid login p-5">
+  <div class="container">
+    <div class="row mt-5">
+      <div class="col-md-6 offset-md-3 p-4">
+        
+       <div class="card card-custom px-4">
+        <h3 class="text-center">Create An Account</h3>
+        <form action="" method="POST" >
+          {% csrf_token %}
+          <!-- 2 column grid layout with text inputs for the first and last names -->           
+              <div class="form-outline mb-4">
+                <input type="text" id="first_name" name="first_name" class="form-control bg-white" />
+                <label class="form-label"  for="first_name">First name</label>  
+              </div>           
+              <div class="form-outline mb-4">
+                <input type="text" id="last_name" name="last_name" class="form-control bg-white" />
+                <label class="form-label" for="last_name">Last name</label>
+                
+                
+              </div>
+          <div class="form-outline mb-4">
+            <input type="text" id="username" name="username" class="form-control bg-white" />
+            <label class="form-label" for="username">Username</label>
+            
+           
+          </div>
+          <!-- Email input -->
+          <div class="form-outline mb-4">
+            <input type="email" id="email" name="email" class="form-control bg-white" />
+            <label class="form-label" for="email">Email address</label>
+            
+           
+          </div>
+        
+          <!-- Password input -->
+          <div class="form-outline mb-4">
+            <input type="password" id="password1" name="password1" class="form-control bg-white" />
+            <label class="form-label"  for="password1">Password</label>
+           
+            
+          </div>
+          <div class="form-outline mb-4">
+            <input type="password" id="password2" name="password2" class="form-control bg-white" />
+            <label class="form-label"  for="password2">Repeat Password</label>
+            
+            
+          </div>
+      
+        
+          <!-- Submit button -->
+          <div class="my-2">
+            <button type="submit" class="btn btn-default mb-4 text-white">Sign up</button>
+          </div>
+        
+          <!-- Register buttons -->
+          <div class="text-center">
+            <p>or sign up with:</p>
+            <button type="button" class="btn btn-default btn-floating mx-1">
+              <i class="fab fa-facebook-f"></i>
+            </button>
+        
+            <button type="button" class="btn btn-light btn-floating mx-1">
+              <i class="fab fa-google"></i>
+            </button>
+        
+            <button type="button" class="btn btn-default btn-floating mx-1">
+              <i class="fab fa-twitter"></i>
+            </button>
+        
+            <button type="button" class="btn btn-light btn-floating mx-1">
+              <i class="fab fa-github"></i>
+            </button>
+          </div>
+        </form>
+       </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

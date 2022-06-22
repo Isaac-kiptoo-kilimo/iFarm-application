@@ -84,7 +84,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app',
     'cloudinary',
-    # 'crispy_forms',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -186,6 +186,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
+AUTH_USER_MODEL = 'app.User'
 
 # Configure Django App for Heroku.
 django_heroku.settings(locals())

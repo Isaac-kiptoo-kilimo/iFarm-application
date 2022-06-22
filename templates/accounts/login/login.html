@@ -50,6 +50,12 @@
               </button>
             </div>
           </form>
+          {% for message in message %}
+        <div class="alert alert-success">
+       
+        {{ message }}
+        </div>
+      {% endfor %}
         </div>
       </div>
     </div>

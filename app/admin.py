@@ -3,8 +3,11 @@ from .models import *
 # Register your models here.
 
 admin.site.register(Post)
+admin.site.register(Farmer)
+admin.site.register(Officer)
+admin.site.register(User)
 admin.site.register(Profile)
-admin.site.register(Business)
 admin.site.register(Shop)
 admin.site.register(Farm)
 admin.site.register(Location)
+admin.site.register(Question)
