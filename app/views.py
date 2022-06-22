@@ -159,6 +159,13 @@ def post(request):
         return redirect('index')
     return render(request,'pages/addpost.html')
 
+@login_required(login_url='login')
+def single(request,post_id):
+    post = Post.objects.get(id=post_id)
+    cxt={
+        'post':post
+    }
+    return render(request,'pages/single.html',cxt)
 
 # @login_required(login_url='login')
 # def neighbor(request):
