@@ -142,7 +142,6 @@ def loginpage(request):
 
 
 
-# Create your views here.
 
 # @login_required(login_url='login')
 def post(request):
@@ -150,7 +149,11 @@ def post(request):
         photo=request.FILES.get('photo')
         title=request.POST.get('title')
         description=request.POST.get('description')
-        posts=Post(post_img=photo,title=title,description=description,user=request.user)
+        price=request.POST.get('price')
+        shop=request.POST.get('shop')
+        category=request.POST.get('category')
+        location=request.POST.get('location')
+        posts=Post(post_img=photo,title=title,description=description,user=request.user,price=price,shop=shop,category=category,location=location)
         posts.save_post()
         print('new post is ',posts)
         return redirect('index')
@@ -235,12 +238,12 @@ def logoutUser(request):
 
 
 class SearchResultsView(ListView):
-    model = Shop
+    model = Post
     template_name = "pages/search.html"
 
     def get_queryset(self):  # new
         query = self.request.GET.get("query")
-        object_list = Shop.objects.filter(
-            Q(shop_name__icontains=query)
+        object_list = Post.objects.filter(
+            Q(shop__icontains=query)
         )
         return object_list

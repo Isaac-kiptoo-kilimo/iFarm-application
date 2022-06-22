@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="vh-100">
+    <div class="container py-5 h-100">
+      <div class="row d-flex align-items-center justify-content-center   h-100">
+        <div class=" my-4 col-md-7 offset-xl-1 card box-shadow p-4 ">
+          <form action="" method="POST" enctype="multipart/form-data" >
+              {% csrf_token %}
+              <p class="text-center">Upload A Post</p>
+              <hr>
+              <div class=" mb-4">
+                <input type="file" id="photo" class="form-control" name="photo" />
+                <label class="form-label" for="customFile"></label>
+                
+            </div>
+           
+            <div class="form-outline mb-4">
+                <input type="text" id="title" class="form-control form-control-lg" name="title" />
+                <label class="form-label" for="title">Title</label>
+                
+              </div>
+              <div class="form-outline mb-4">
+                <input type="text" id="price" class="form-control form-control-lg" name="price" />
+                <label class="form-label" for="price">Price</label>
+                
+              </div>
+              <div class="form-outline mb-4">
+                <input type="text" id="shop" class="form-control form-control-lg" name="shop" />
+                <label class="form-label" for="shop">Shop</label>
+                
+              </div>
+              <div class="form-outline mb-4">
+                <input type="text" id="location" class="form-control form-control-lg" name="location" />
+                <label class="form-label" for="location">Location</label>
+              
+              </div>
+              <div class="form-outline mb-4">
+                <input type="text" id="category" class="form-control form-control-lg" name="category" />
+                <label class="form-label" for="category">Category</label>
+                
+              </div>
+          
+            <div class="form-outline mb-4">
+                <textarea type="text"  id="description" class="form-control form-control-lg" name="description"  rows="5"></textarea>
+                <label class="form-label" for="description">Description</label>
+                
+                
+            </div>
+        
+    
+            <button type="submit" class="btn text-white btn-primary btn-lg btn-block">Upload</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

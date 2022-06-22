@@ -3,8 +3,6 @@ from cloudinary.models import CloudinaryField
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.db import transaction
-
-
 from django.contrib.auth.models import AbstractUser
 
 
@@ -105,6 +103,10 @@ class Post(models.Model):
     description=models.TextField(null=False)
     created_at=models.DateTimeField(auto_now_add=True,)
     price=models.CharField(max_length=100,null=True,blank=True)
+    shop=models.CharField(max_length=100,blank=True,null=True)
+    category=models.CharField(max_length=100,null=True,blank=True)
+    location=models.CharField(max_length=100,blank=True,null=True)
+    
 
     def save_post(self):
         self.save()
@@ -119,48 +121,7 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
-
-
-class Location(models.Model):
-    location_name=models.CharField(max_length=100,blank=True,null=True)
-    place=models.CharField(max_length=100,blank=True,null=True)
-    user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="locations",null=True,blank=True)
-    farm_id=models.ForeignKey(Farm, on_delete=models.CASCADE, related_name="locations",null=True,blank=True)
-
-    def save_location(self):
-        self.save()
-
-    def delete_location(self):
-        self.delete()
-
-    def update_location(self,id,location):
-        updated_location=Location.objects.filter(id=id).update(location)
-        return updated_location
-
-
-    def __str__(self):
-        return self.location_name
-
-class Shop(models.Model):
-    shop_name=models.CharField(max_length=100,blank=True,null=True)
-    distance=models.IntegerField(blank=True,null=True)
-    category=models.CharField(max_length=100,null=True,blank=True)
-    user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="shops",null=True,blank=True)
     
-    def save_shop(self):
-        self.save()
-
-    def delete_shop(self):
-        self.delete()
-
-    def update_shop(self,id,shop):
-        updated_shop=Shop.objects.filter(id=id).update(shop)
-        return updated_shop
-
-
-    def __str__(self):
-        return self.shop_name
-
     
 class Question(models.Model):
     question_title=models.CharField(max_length=100,blank=True,null=True)
