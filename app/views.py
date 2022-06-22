@@ -167,6 +167,12 @@ def single(request,post_id):
     }
     return render(request,'pages/single.html',cxt)
 
+def delete(request,post_id):
+    post = Post.objects.get(id=post_id)
+    post.delete()
+    return redirect('post')
+
+
 # @login_required(login_url='login')
 # def neighbor(request):
 #     if request.method=='POST':

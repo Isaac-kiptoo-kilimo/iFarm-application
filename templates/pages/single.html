@@ -11,8 +11,9 @@
             <div class="card p-4 ">
                 <h3>{{post.title}} </h3>
                 <p>{{post.description}}</p>
-               <div>
-                <a href="" class="btn btn-primary">Create Business</a>
+                <div>
+                    <a href="" class="btn btn-primary me-3">Update Post</a>
+                    <a href="{% url 'delete' post.id %}" class="btn btn-danger ">Delete Post</a>
                </div>
             </div>            
         
