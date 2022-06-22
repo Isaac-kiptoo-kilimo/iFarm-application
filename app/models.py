@@ -162,3 +162,65 @@ class Answer(models.Model):
 
     def __str__(self):
         return self.answer
+
+class Comment(models.Model):
+    answer=models.ForeignKey(Answer,on_delete=models.CASCADE, related_name="comments",null=True,blank=True)
+    user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments",null=True,blank=True)
+    comment=models.TextField(null=True,blank=True)
+    comment_at=models.DateTimeField(auto_now_add=True,)
+
+    def save_comment(self):
+        self.save()
+
+    def delete_comment(self):
+        self.delete()
+
+    def update_comment(self,id,comment):
+        updated_comment=Comment.objects.filter(id=id).update(comment)
+        return updated_comment
+
+
+    def __str__(self):
+        return self.comment
+
+
+class Upvote(models.Model):
+    comment=models.ForeignKey(Comment,on_delete=models.CASCADE, related_name="upvotes",null=True,blank=True)
+    user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="upvotes",null=True,blank=True)
+    upvote=models.TextField(null=True,blank=True)
+    upvotes_at=models.DateTimeField(auto_now_add=True)
+
+    def save_upvote(self):
+        self.save()
+
+    def delete_upvote(self):
+        self.delete()
+
+    def update_upvote(self,id,upvote):
+        updated_upvote=Upvote.objects.filter(id=id).update(upvote)
+        return updated_upvote
+
+
+    def __str__(self):
+        return self.upvote
+
+
+class Downvote(models.Model):
+    comment=models.ForeignKey(Comment,on_delete=models.CASCADE, related_name="downvotes",null=True,blank=True)
+    user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="downvotes",null=True,blank=True)
+    upvote=models.TextField(null=True,blank=True)
+    upvotes_at=models.DateTimeField(auto_now_add=True)
+
+    def save_downvote(self):
+        self.save()
+
+    def delete_downvote(self):
+        self.delete()
+
+    def update_downvote(self,id,downvote):
+        updated_downvote=Downvote.objects.filter(id=id).update(downvote)
+        return updated_downvote
+
+
+    def __str__(self):
+        return self.upvote

@@ -23,6 +23,50 @@ def profile(request):
     return render(request,'pages/profile.html',{'users':user})
 
 
+def question(request):
+    user=User.objects.all()
+    question=Question.objects.all().order_by('-id')
+    return render(request,'pages/question.html',{'users':user,'questions':question})
+
+def addquestion(request):
+    if request.method=='POST':
+        question_title=request.POST.get('question_title')
+        question=request.POST.get('question')
+        question=Question(question_title=question_title,question=question,user=request.user)
+        question.save_question()
+        return redirect('question')
+    return render(request,'pages/addquestion.html')
+
+# @login_required(login_url='login')
+def post(request):
+    if request.method=='POST':
+        photo=request.FILES.get('photo')
+        title=request.POST.get('title')
+        description=request.POST.get('description')
+        price=request.POST.get('price')
+        shop=request.POST.get('shop')
+        category=request.POST.get('category')
+        location=request.POST.get('location')
+        posts=Post(post_img=photo,title=title,description=description,user=request.user,price=price,shop=shop,category=category,location=location)
+        posts.save_post()
+        print('new post is ',posts)
+        return redirect('index')
+    return render(request,'pages/addpost.html')
+
+@login_required(login_url='login')
+def single(request,post_id):
+    post = Post.objects.get(id=post_id)
+    cxt={
+        'post':post
+    }
+    return render(request,'pages/single.html',cxt)
+
+def delete(request,post_id):
+    post = Post.objects.get(id=post_id)
+    post.delete()
+    return redirect('post')
+
+
 # @login_required(login_url='login')
 def editProfile(request):
     profiles= Profile.objects.get(user=request.user)
@@ -142,35 +186,6 @@ def loginpage(request):
 
 
 
-
-# @login_required(login_url='login')
-def post(request):
-    if request.method=='POST':
-        photo=request.FILES.get('photo')
-        title=request.POST.get('title')
-        description=request.POST.get('description')
-        price=request.POST.get('price')
-        shop=request.POST.get('shop')
-        category=request.POST.get('category')
-        location=request.POST.get('location')
-        posts=Post(post_img=photo,title=title,description=description,user=request.user,price=price,shop=shop,category=category,location=location)
-        posts.save_post()
-        print('new post is ',posts)
-        return redirect('index')
-    return render(request,'pages/addpost.html')
-
-@login_required(login_url='login')
-def single(request,post_id):
-    post = Post.objects.get(id=post_id)
-    cxt={
-        'post':post
-    }
-    return render(request,'pages/single.html',cxt)
-
-def delete(request,post_id):
-    post = Post.objects.get(id=post_id)
-    post.delete()
-    return redirect('post')
 
 
 # @login_required(login_url='login')
