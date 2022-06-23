@@ -1,11 +1,12 @@
 <nav class="navbar navbar-expand-lg navbg sticky-top">
   
     <div class="container-fluid">
-      {% if user.is_authenticated %}
+      
       <a class="navbar-brand mx-5" href="{% url 'index' %}"><img src="/static/images/home.webp" width="30px" height="30px" class=" rounded-circle" alt=""></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+      {% if user.is_authenticated %}
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
@@ -22,7 +23,7 @@
           <li class="nav-item me-4">
             <a class="nav-link " href="{% url 'profile' %}" tabindex="-1" aria-disabled="true">
               {% if user.is_authenticate %}
-              <img src="{{user.profile.proc_img.url}}" width="30px" height="30px" class=" rounded-circle mx-3" alt="">
+              <img src="{{request.user.profile.proc_img.url}}" width="30px" height="30px" class=" rounded-circle mx-3" alt="">
               {% else %}
               <img src="/static/images/user.webp" width="30px" height="30px" class=" rounded-circle" alt="">
               {% endif %}
@@ -38,9 +39,11 @@
                 <a class="nav-link active btn btn-sucess" aria-current="page" href="{% url 'logout' %}">Logout </a>
               </li>
               {% else %}
-              <a class="nav-link active btn btn-sucess" aria-current="page" href="{% url 'login' %}">Login </a>
-              <a class="nav-link btn btn-sucess" href="{% url 'register' %}">Sign up</a>
+              <div class="ms-auto d-flex me-3">
+                <a class="nav-link active btn btn-sucess mx-3" aria-current="page" href="{% url 'login' %}">Login </a>
+                <a class="nav-link btn btn-sucess" href="{% url 'register' %}">Sign up</a>
                          
+              </div>
           </ul>
       </div>
       {% endif %}

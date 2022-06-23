@@ -7,8 +7,9 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-    is_farmer = models.BooleanField(default=False)
-    is_officer = models.BooleanField(default=False)
+    is_admin = models.BooleanField('Is admin',default=False)
+    is_farmer = models.BooleanField('Is farmer',default=False)
+    is_officer = models.BooleanField('Is officer',default=False)
 
 
 class Farmer(models.Model):

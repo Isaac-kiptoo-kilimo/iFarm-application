@@ -1,19 +1,70 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container-fluid login p-5 register">
-  <div class="container">
-   
-    <div class="row">
 
-      
-      <div class="col-md-6 offset-md-3 text-center ">
-        <h2 class="lh-1">Sign Up <br> <span class="text-success lh-lg">GET STARTED</span> </h2>
-       <div class="d-flex justify-content-center">
-        <a href="{% url 'farmer' %}" class="btn btn-sucess mx-3">As Farmer</a>
-        <a href="{% url 'officer' %}" class="btn btn-sucess">As Officer</a>
-       </div>
+<div class="content register">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-6 contents">
+          <div class="row justify-content-center">
+            <div class="col-md-12">
+              <div class="card p-4">
+                <div class="form-block">
+                  <div class="mb-4">
+                      <h1>User Registration page</h1>
+                </div>
+                  <span class="mb-0 text-muted">
+                {% if msg %}
+                    {{ msg | safe }}
+                {% else %}
+                    Login page
+                {% endif %}
+              </span>
+                <form  method="post">
+                    {% csrf_token %}
+                  <div class="form-group first">
+                    <label for="username">Username</label>
+                      {{ form.username }}
+                  </div>
+                  <div class="form-group first">
+                    <label for="email">Email</label>
+                      {{ form.email}}
+                  </div>
+                  <div class="form-group last mb-4">
+                    <label for="password">Password</label>
+                      {{ form.password1 }}
+                  </div>
+                  <div class="form-group last mb-4">
+                    <label for="password">confirm Password</label>
+                      {{ form.password2 }}
+                  </div>
+                  <div class="d-flex mb-5 align-items-center">
+                    <label class="control control--checkbox mb-0"><span class="caption">Admin</span>
+                        {{ form.is_admin }}
+                      <div class="control__indicator"></div>
+                    </label>
+                  </div>
+                  <div class="d-flex mb-5 align-items-center">
+                    <label class="control control--checkbox mb-0"><span class="caption">Farmer</span>
+                        {{ form.is_farmer }}
+                      <div class="control__indicator"></div>
+                    </label>
+                  </div>
+                  <div class="d-flex mb-5 align-items-center">
+                    <label class="control control--checkbox mb-0"><span class="caption">Officer</span>
+                        {{ form.is_officer }}
+                      <div class="control__indicator"></div>
+                    </label>
+                  </div>
+                    <span class="text-error">{{ form.errors }}</span>
+                  <input type="submit"  value="Register" class="btn btn-pill text-white btn-block btn-primary">
+                </form>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
-</div>
 {% endblock %}

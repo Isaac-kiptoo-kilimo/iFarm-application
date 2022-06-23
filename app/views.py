@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from app.decorators import unauthenticated_user
 from .models import *
+from .forms import SignUpForm
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 from django.contrib.auth.password_validation import validate_password
@@ -124,81 +125,124 @@ def editProfile(request):
 def farm(request):
     return render(request,'pages/farm.html')
 
-@unauthenticated_user
+# @unauthenticated_user
+# def register(request):
+#     return render(request,'accounts/register/register.html')
+
 def register(request):
-    return render(request,'accounts/register/register.html')
-
-
-@unauthenticated_user
-def register_farmer(request):
-    if request.method=='POST':
-        first_name=request.POST.get('first_name')
-        last_name=request.POST.get('last_name')
-        username=request.POST.get('username')
-        email=request.POST.get('email')
-        password1=request.POST.get('password1')
-        password2=request.POST.get('password2')
-        # farmer= Farmer.objects.get_or_create(request.user.farmer)
-        # farmer.save_farmer()
-        # print('farmer',farmer)
-        if password1==password2:  
-                new_user,create = User.objects.get_or_create(first_name=first_name,last_name=last_name,username=username,email=email)
-                if create:
-                    try:
-                        validate_password(password1)
-                        new_user.password = make_password(password1)
-                        new_user.is_farmer=True
-                        new_user.profile.first_name=first_name
-                        new_user.profile.last_name=last_name
-                        new_user.profile.username=username
-                        new_user.profile.email_user=email
-                        new_user.profile.save()
-                        print('profile',new_user)
-                        new_user.save()
-                        print('general',new_user)
-                        # new_user.save_farmer()
-                        # print('farmer',new_user)
-                        messages.success(request,'Account has been created successfully')
-                        return redirect('login')
-                    except ValidationError as e:
-                        messages.error(request,'Password error {e} ')
+    msg = None
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            msg = 'user created'
+            return redirect('login')
         else:
-            messages.error(request,"Passwords do not match")
-            return redirect('/register_farmer')    
+            msg = 'form is not valid'
+    else:
+        form = SignUpForm()
+    return render(request,'accounts/register/register.html', {'form': form, 'msg': msg})
 
-    return render(request,'accounts/register/registerfarmer.html',{'messages':messages})
 
-@unauthenticated_user  
-def register_officer(request):
-    if request.method=='POST':
-        first_name=request.POST.get('first_name')
-        last_name=request.POST.get('last_name')
-        username=request.POST.get('username')
-        email=request.POST.get('email')
-        password1=request.POST.get('password1')
-        password2=request.POST.get('password2')
+# def login_view(request):
+#     form = LoginForm(request.POST or None)
+#     msg = None
+#     if request.method == 'POST':
+#         if form.is_valid():
+#             username = form.cleaned_data.get('username')
+#             password = form.cleaned_data.get('password')
+#             user = authenticate(username=username, password=password)
+#             if user is not None and user.is_admin:
+#                 login(request, user)
+#                 return redirect('adminpage')
+#             elif user is not None and user.is_customer:
+#                 login(request, user)
+#                 return redirect('customer')
+#             elif user is not None and user.is_employee:
+#                 login(request, user)
+#                 return redirect('employee')
+#             else:
+#                 msg= 'invalid credentials'
+#         else:
+#             msg = 'error validating form'
+#     return render(request, 'login.html', {'form': form, 'msg': msg})
 
-        if password1==password2:   
-                new_user,create = User.objects.get_or_create(first_name=first_name,last_name=last_name,username=username,email=email)
-                if create:
-                    try:
-                        validate_password(password1)
-                        new_user.password = make_password(password1)
-                        new_user.profile.first_name=first_name
-                        new_user.profile.last_name=last_name
-                        new_user.profile.username=username
-                        new_user.profile.email_user=email
-                        new_user.profile.save()
-                        new_user.save()
-                        messages.success(request,'Account has been created successfully')
-                        return redirect('login')
-                    except ValidationError as e:
-                        messages.error(request,'Password error {e} ')
-        else:
-            messages.error(request,"Passwords do not match")
-            return redirect('/register_officer')    
+# @unauthenticated_user
+# def register_farmer(request):
+#     if request.method=='POST':
+#         first_name=request.POST.get('first_name')
+#         last_name=request.POST.get('last_name')
+#         username=request.POST.get('username')
+#         email=request.POST.get('email')
+#         password1=request.POST.get('password1')
+#         password2=request.POST.get('password2')
+#         # farmer= Farmer.objects.get_or_create(request.user.farmer)
+#         # farmer.save_farmer()
+#         # print('farmer',farmer)
+#         if password1==password2:  
+#                 new_user,create = User.objects.get_or_create(first_name=first_name,last_name=last_name,username=username,email=email)
+#                 if create:
+#                     try:
+#                         validate_password(password1)
+#                         new_user.password = make_password(password1)
+#                         new_user.is_farmer=True
+#                         new_user.profile.first_name=first_name
+#                         new_user.profile.last_name=last_name
+#                         new_user.profile.username=username
+#                         new_user.profile.email_user=email
+#                         new_user.profile.save()
+#                         print('profile',new_user)
+#                         new_user.save()
+#                         print('general',new_user)
+#                         # new_user.save_farmer()
+#                         # print('farmer',new_user)
+#                         messages.success(request,'Account has been created successfully')
+#                         return redirect('login')
+#                     except ValidationError as e:
+#                         messages.error(request,'Password error {e} ')
+#         else:
+#             messages.error(request,"Passwords do not match")
+#             return redirect('/register_farmer')    
 
-    return render(request,'accounts/register/registerofficer.html',{'messages':messages})
+#     return render(request,'accounts/register/registerfarmer.html',{'messages':messages})
+
+# @unauthenticated_user  
+# def register_officer(request):
+#     if request.method=='POST':
+#         first_name=request.POST.get('first_name')
+#         last_name=request.POST.get('last_name')
+#         username=request.POST.get('username')
+#         email=request.POST.get('email')
+#         password1=request.POST.get('password1')
+#         password2=request.POST.get('password2')
+#         is_admin=request.POST.get('is_admin')
+#         is_farmer=request.POST.get('is_farmer')
+#         is_officer=request.POST.get('is_officer')
+
+#         if password1==password2:   
+#                 new_user,create = User.objects.get_or_create(first_name=first_name,last_name=last_name,username=username,email=email,is_admin=is_admin,is_farmer=is_farmer,is_officer=is_officer)
+#                 if create:
+#                     try:
+#                         validate_password(password1)
+#                         new_user.password = make_password(password1)
+#                         new_user.profile.first_name=first_name
+#                         new_user.profile.last_name=last_name
+#                         new_user.profile.username=username
+#                         new_user.profile.email_user=email
+#                         new_user.profile.is_admin=is_admin
+#                         new_user.profile.is_farmer=is_farmer
+#                         new_user.profile.is_officer=is_officer
+#                         new_user.profile.save()
+#                         new_user.save()
+#                         messages.success(request,'Account has been created successfully')
+#                         return redirect('login')
+#                     except ValidationError as e:
+#                         messages.error(request,'Password error {e} ')
+#         else:
+#             messages.error(request,"Passwords do not match")
+#             return redirect('/register_farmer')    
+
+#     return render(request,'accounts/register/registerfarmer.html',{'messages':messages})
 
 @unauthenticated_user
 def loginpage(request):
@@ -210,14 +254,29 @@ def loginpage(request):
         user=authenticate(username=username,password=password)
         print(user)
         
-        if user is not None:
-            login(request,user)
-            return redirect('index')
+        if user is not None and user.is_admin:
+            login(request, user)
+            return redirect('adminpage')
+        elif user is not None and user.is_farmer:
+            login(request, user)
+            return redirect('farmer')
+        elif user is not None and user.is_officer:
+            login(request, user)
+            return redirect('officer')
         else:
-            messages.error(request,'User with this credentials not found')
+            msg= 'invalid credentials'
     return render(request,'accounts/login/login.html')
 
+def admin(request):
+    return render(request,'pages/admin.html')
 
+
+def farmer(request):
+    return render(request,'pages/farmer.html')
+
+
+def officer(request):
+    return render(request,'pages/officer.html')
 
 
 
