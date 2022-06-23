@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container my-4">
+  <div class="card m-4 p-2">
+    <h1 class="ms-5">Search Results</h1>
+    <div class="row mt-3">
+      {% for post in object_list %}
+      <div class="col-md-4  p-3 mb-5 bg-body rounded">
+         
+         <div class="card">
+             <!-- <p> {{post.description}}</p> -->
+             <h4 class="card-title fw-bold m-2">{{post.id}} .{{post.title}}</h4>
+             <a href="{% url 'single' post.id %}"><img src="{{post.post_img.url}}" class="card-img-top" width="100%" height="300px" style="object-fit:cover;" alt="Fissure in Sandstone"/></a>
+             <div class="card-body">
+               
+               <p class="card-text">{{post.description}}</p>
+               <div class="d-flex">
+                 <p class="card-text me-3">Price Ksh.<span class="fw-bold">{{post.price}}</span> </p>
+               <p class="card-text">Shop Name: {{post.shop}}</p>
+               </div>
+               <div class="d-flex">
+                 <p class="card-text me-3">category :{{post.category}}</p>
+                 <p class="card-text">Location :{{post.location}}</p>
+               </div>
+               <p class="card-text">{{post.created_at}}</p>
+               <h5 class="card-text text-dark">Posted by: <span class="text-capitalize">{{post.user}}</span></h5>
+               
+             </div>
+         </div>
+         {% empty %}
+        <div>
+            <h2 class="text-center text-danger">Ooops ! There Is No Shop Found.. </h2>
+        </div>
+      </div>
+      {% endfor %}
+  </div>
+  </div>
+
+</div>
+
+{% endblock %}

@@ -10,6 +10,7 @@ from django.core.exceptions import ValidationError
 from .forms import ProfileForm
 from django.db.models import Q
 from django.views.generic import TemplateView, ListView
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 
@@ -25,8 +26,21 @@ def profile(request):
 
 def question(request):
     user=User.objects.all()
-    question=Question.objects.all().order_by('-id')
-    return render(request,'pages/question.html',{'users':user,'questions':question})
+    if 'q' in request.GET:
+        q=request.GET['q']
+        question=Question.objects.filter(question_title__icontains=q).order_by('-id')
+    else:
+        question=Question.objects.all().order_by('-id')
+    page = request.GET.get('page', 1)
+    paginator = Paginator(question, 1)
+    try:
+        questions = paginator.page(page)
+    except PageNotAnInteger:
+        questions = paginator.page(1)
+    except EmptyPage:
+        questions = paginator.page(paginator.num_pages)
+    return render(request,'pages/question.html',{'users':user,'questions':questions})
+   
 
 def addquestion(request):
     if request.method=='POST':
@@ -37,6 +51,9 @@ def addquestion(request):
         return redirect('question')
     return render(request,'pages/addquestion.html')
 
+def question_detail(request,id):
+    question=Question.objects.get(pk=id)
+    return render(request ,'pages/detail.html',{'question':question})
 # @login_required(login_url='login')
 def post(request):
     if request.method=='POST':

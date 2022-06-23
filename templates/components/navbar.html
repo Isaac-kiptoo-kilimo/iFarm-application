@@ -14,7 +14,7 @@
          
           
         </ul>
-        <form class="d-flex me-auto" action="" method="GET">
+        <form class="d-flex me-auto" action="{% url 'search_results' %}" method="GET">
           <input class="form-control me-2" type="search" name="query" placeholder="Search Business" aria-label="Search">
           <button class="btn btn-outline-primary" type="search">Search</button>
         </form>
@@ -29,14 +29,8 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active btn btn-sucess" aria-current="page" href="{% url 'addquestion' %}">Questions </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active btn btn-sucess" aria-current="page" href="">Answer </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active btn btn-sucess" aria-current="page" href="">Ask </a>
-          </li>
+            <a class="nav-link active btn btn-sucess" aria-current="page" href="{% url 'question' %}">Ask</a>
+          </li>          
           <li class="nav-item">
             <a class="nav-link active btn btn-sucess" aria-current="page" href="">Tags </a>
           </li>

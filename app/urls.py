@@ -14,6 +14,7 @@ urlpatterns=[
     path("addquestion", views.addquestion, name="addquestion"),
     path("single/<int:post_id>/", views.single, name="single"),
     path("question/", views.question,name="question"),
+    path("detail/<int:id>/", views.question_detail, name="detail"),
     path("delete/<int:post_id>/", views.delete, name="delete"),
     path('accounts/logout/',views.logoutUser,name='logout'),
     path("search/", SearchResultsView.as_view(), name="search_results"),
