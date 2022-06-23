@@ -12,7 +12,7 @@
         
         {% for question in questions %}
         <div class="col-md-4">
-            <div class="card mt-3">
+            <div class="card mt-3 p-3">
                 <a href="{% url 'detail' question.id %}"><div class="card-title">
                     <h3>{{question.question_title}}</h3>
                 </div></a>

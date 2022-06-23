@@ -1,8 +1,28 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container">
-  <h2>Welcom to IFarm</h2>
-    <div class="row my-5">
+<div class="container-fluid">
+  <div class="hero">
+    <div class="container">
+      <div class="row d-flex align-items-center ">
+        <div class="col-md-4 mt-5">
+         <div class="card mt-5 p-2">
+          <h3 class=" lh-1">Start to contribute with <br> reliable farmers   and Officers</h3>
+          <p> Grow  healthier crops and highly-quality  <br> crops continuoulsy</p>
+         </div>
+        </div>        
+        <div class="col-md-6 text-center ">
+          <h4 class="fw-bold text-warning">Welcome To iFarm </h4>
+          <h2 class="lh-1"> <span class="text-warning lh-lg">GET STARTED</span> </h2>
+         <div class="d-flex justify-content-center">
+          <a href="{% url 'farmer' %}" class="btn btn-sucess mx-3">As Farmer</a>
+          <a href="{% url 'officer' %}" class="btn btn-sucess">As Officer</a>
+         </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <h3 class="mt-3 ">Important Things in Farming</h3>
+    <div class="row my-2">
         {% for post in posts %}
         <div class="col-md-4 mb-4 rounded">
             <div class="card shadow">

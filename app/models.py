@@ -127,6 +127,7 @@ class Question(models.Model):
     question_title=models.CharField(max_length=100,blank=True,null=True)
     user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="questions",null=True,blank=True)
     question=models.TextField(null=True,blank=True)
+    tags=models.TextField(null=True,blank=True)
     post_at=models.DateTimeField(auto_now_add=True,)
 
     def save_question(self):
@@ -145,7 +146,8 @@ class Question(models.Model):
 
 class Answer(models.Model):
     answer_title=models.CharField(max_length=100,blank=True,null=True)
-    question=models.ForeignKey(User, on_delete=models.CASCADE, related_name="answers",null=True,blank=True)
+    user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="answers",null=True,blank=True)
+    question=models.ForeignKey(Question, on_delete=models.CASCADE, related_name="answers",null=True,blank=True)
     answer=models.TextField(null=True,blank=True)
     posted_at=models.DateTimeField(auto_now_add=True,)
 

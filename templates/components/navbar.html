@@ -1,7 +1,7 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+<nav class="navbar navbar-expand-lg navbg sticky-top">
   
     <div class="container-fluid">
-      
+      {% if user.is_authenticated %}
       <a class="navbar-brand mx-5" href="{% url 'index' %}"><img src="/static/images/home.webp" width="30px" height="30px" class=" rounded-circle" alt=""></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -31,18 +31,18 @@
           <li class="nav-item">
             <a class="nav-link active btn btn-sucess" aria-current="page" href="{% url 'question' %}">Ask</a>
           </li>          
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link active btn btn-sucess" aria-current="page" href="">Tags </a>
-          </li>
+          </li> -->
             <li class="nav-item">
-                <a class="nav-link active btn btn-sucess" aria-current="page" href="">Logout </a>
+                <a class="nav-link active btn btn-sucess" aria-current="page" href="{% url 'logout' %}">Logout </a>
               </li>
-              
+              {% else %}
               <a class="nav-link active btn btn-sucess" aria-current="page" href="{% url 'login' %}">Login </a>
               <a class="nav-link btn btn-sucess" href="{% url 'register' %}">Sign up</a>
                          
           </ul>
       </div>
-      
+      {% endif %}
     </div>
   </nav>

@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
-# from app.decorators import unauthenticated_user
+from app.decorators import unauthenticated_user
 from .models import *
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
@@ -19,11 +19,12 @@ def index(request):
     posts=Post.objects.all()
     return render(request,'pages/index.html',{'posts':posts})
 
+@login_required(login_url='login')
 def profile(request):
     user=User.objects.all()
     return render(request,'pages/profile.html',{'users':user})
 
-
+@login_required(login_url='login')
 def question(request):
     user=User.objects.all()
     if 'q' in request.GET:
@@ -41,7 +42,7 @@ def question(request):
         questions = paginator.page(paginator.num_pages)
     return render(request,'pages/question.html',{'users':user,'questions':questions})
    
-
+@login_required(login_url='login')
 def addquestion(request):
     if request.method=='POST':
         question_title=request.POST.get('question_title')
@@ -51,10 +52,20 @@ def addquestion(request):
         return redirect('question')
     return render(request,'pages/addquestion.html')
 
+@login_required(login_url='login')
 def question_detail(request,id):
     question=Question.objects.get(pk=id)
-    return render(request ,'pages/detail.html',{'question':question})
-# @login_required(login_url='login')
+    tags=question.tags.split(',')
+    answer=Answer.objects.get(question=question)
+    context={
+        'tags':tags,
+        'question':question,
+        'answer':answer
+    }
+    return render(request ,'pages/detail.html',context)
+
+
+@login_required(login_url='login')
 def post(request):
     if request.method=='POST':
         photo=request.FILES.get('photo')
@@ -78,13 +89,14 @@ def single(request,post_id):
     }
     return render(request,'pages/single.html',cxt)
 
+@login_required(login_url='login')
 def delete(request,post_id):
     post = Post.objects.get(id=post_id)
     post.delete()
     return redirect('post')
 
 
-# @login_required(login_url='login')
+@login_required(login_url='login')
 def editProfile(request):
     profiles= Profile.objects.get(user=request.user)
    
@@ -112,9 +124,12 @@ def editProfile(request):
 def farm(request):
     return render(request,'pages/farm.html')
 
+@unauthenticated_user
 def register(request):
     return render(request,'accounts/register/register.html')
 
+
+@unauthenticated_user
 def register_farmer(request):
     if request.method=='POST':
         first_name=request.POST.get('first_name')
@@ -153,7 +168,7 @@ def register_farmer(request):
 
     return render(request,'accounts/register/registerfarmer.html',{'messages':messages})
 
-    
+@unauthenticated_user  
 def register_officer(request):
     if request.method=='POST':
         first_name=request.POST.get('first_name')
@@ -185,6 +200,7 @@ def register_officer(request):
 
     return render(request,'accounts/register/registerofficer.html',{'messages':messages})
 
+@unauthenticated_user
 def loginpage(request):
     if request.method=='POST':
         username=request.POST.get('username')

@@ -1,0 +1,34 @@
+body{
+    background-color: #e1eaea;
+}
+.hero{
+    background: url(/static/images/fields.avif);
+    height: 100vh;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    /* background-attachment: fixed; */
+    color: var(--color);
+}
+
+.register{
+
+    background-color: #97C9CA;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    width: 100%;
+    height: 110vh;
+    
+}
+
+.card-custom{
+    background-color: #97C9CA;
+    /* color: white; */
+}
+.navbg{
+    background-color: #bfddde;
+    /* color: white; */
+}
